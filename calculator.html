@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pl-PL">
+<head>
+    <meta charset="UTF-8">
+    <title>Kalkulator</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+    <form method="POST">
+        <label>Pierwsza liczba</label><br>
+        <input type="text" name="firstNumber"><br>
+        <label>Działanie</label><br>
+        <select name="operator" id="">
+            <option value="+">dodaj</option>
+            <option value="-">odejmij</option>
+            <option value="*">pomnóż</option>
+            <option value="/">podziel</option>
+        </select><br>
+        <label>Druga liczba</label><br>
+        <input type="text" name="secondNumber" id="second-number"><br>
+    </form>
+    <button id="calculate">Oblicz</button>
+    <div id="result"></div>
+    <button id="num1">1</button>
+    <script type="text/javascript" src="script.js">
+    </script>
+</body>
+</html>

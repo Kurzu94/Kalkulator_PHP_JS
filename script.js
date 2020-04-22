@@ -1,54 +1,48 @@
-class DigitButton {
-    constructor(digit){
-        this.digit = digit;
-
-        const text = document.querySelector('input[type="text"]');
-        const buttonID = `digit-${this.digit}`;
-        const button = document.getElementById(buttonID);
-        button.onclick = () => {
-            text.value += this.digit;
-        }
-    }
-}
-
-class FunctionButton {
-
-    operation(operator){
-        this.operator = operator;
-
-        (this.operator === "+") ? this.buttonID = "plus" :
-        (this.operator === "-") ? this.buttonID = "minus" :
-        (this.operator === "/") ? this.buttonID = "divide" :
-        (this.operator === "*") ? this.buttonID = "multiply" :
-        this.buttonID = "";
-
-
-        const text = document.querySelector('input[type="text"]');
-        const button = document.getElementById(this.buttonID);
-        button.onclick = () => {
-            if (text.value.charAt(text.value.length - 1) !== this.operator) {
-                text.value += this.operator;
+$(document).ready(function() {
+    $("#calculate").click(() => {
+        $.ajax({
+            type: "post",
+            url: "action.php",
+            data: $("form").serialize(),
+            success: function(result) {
+                $("#result").html(result);
             }
-        }
-    }
+        });
+
+    });
+
+    $("#num1").click(() => {
+        $("input[name='firstNumber']").value += 1;
+    });
+});
+
+
+/*const firstNumber = document.querySelector("input[name='firstNumber']");
+
+function accessCookie(cookieName)
+{
+    let name = cookieName + "=";
+    let cookieArray = document.cookie.split(';');
+    let temp = cookieArray[0].trim();
+    if (temp.indexOf(name)==0) return temp.substring(name.length,temp.length);
 }
 
+const cookie = parseInt(accessCookie("answer"));
+if(!isNaN(cookie)) {
+    const answer = document.getElementById("answer");
+    answer.innerText = `Wynik to: ${cookie}`;
+    firstNumber.value = cookie;
+}
+const secondNumber = document.querySelector("input[name='secondNumber']");
+const operator = document.querySelector("select[name='operator']");
+const submit = document.querySelector("button[name='submit']");
 
-const button0 = new DigitButton(0);
-const button1 = new DigitButton(1);
-const button2 = new DigitButton(2);
-const button3 = new DigitButton(3);
-const button4 = new DigitButton(4);
-const button5 = new DigitButton(5);
-const button6 = new DigitButton(6);
-const button7 = new DigitButton(7);
-const button8 = new DigitButton(8);
-const button9 = new DigitButton(9);
-const plusButton = new FunctionButton();
-plusButton.operation("+");
-const minusButton = new FunctionButton();
-minusButton.operation("-");
-const multiplyButton = new FunctionButton();
-multiplyButton.operation("*");
-const divideButton = new FunctionButton();
-divideButton.operation("/");
+function validate(){
+    if(secondNumber.value == 0 && operator.value == "/") {
+        answer.innerText = "Błędna wartość";
+        submit.enable = false;
+    }
+    else answer.innerText = "";
+}
+secondNumber.onkeyup = validate;
+operator.onchange = validate;*/
