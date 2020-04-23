@@ -1,5 +1,4 @@
 <?php
-    session_start();
     include 'calculator.class.php';
 
     $firstNumber = $_POST['firstNumber'];
@@ -8,8 +7,10 @@
 
 
     $answer = new Calculator($firstNumber, $secondNumber, $operator);
+    $answer->setErrorMessage("Niemożliwe");
     try {
-        echo $answer->calculate();
+        $answerPush = $answer->calculate();
+        echo json_encode($answerPush);
     }
     catch (Error $e) {
         echo $e;

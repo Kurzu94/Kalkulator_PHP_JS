@@ -4,6 +4,7 @@ class Calculator {
     private $firstNumber;
     private $secondNumber;
     private $operator;
+    private $message;
 
     /**
      * Calculator constructor.
@@ -19,8 +20,14 @@ class Calculator {
     }
 
     /**
+     * @param string $message
      * @return float
      */
+    public function setErrorMessage(string $message){
+        $this->message = $message;
+        return $this->message;
+    }
+
     public function calculate(): float
     {
         switch($this->operator) {

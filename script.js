@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    const secondNumber = $("input[name='secondNumber']");
+    const operator = $("select");
+
     $("#calculate").click(() => {
         $.ajax({
             type: "post",
@@ -6,43 +9,34 @@ $(document).ready(function() {
             data: $("form").serialize(),
             success: function(result) {
                 $("#result").html(result);
+                $("input[name='firstNumber']").val(result);
+                secondNumber.val("");
             }
         });
-
     });
 
-    $("#num1").click(() => {
-        $("input[name='firstNumber']").value += 1;
-    });
-});
-
-
-/*const firstNumber = document.querySelector("input[name='firstNumber']");
-
-function accessCookie(cookieName)
-{
-    let name = cookieName + "=";
-    let cookieArray = document.cookie.split(';');
-    let temp = cookieArray[0].trim();
-    if (temp.indexOf(name)==0) return temp.substring(name.length,temp.length);
-}
-
-const cookie = parseInt(accessCookie("answer"));
-if(!isNaN(cookie)) {
-    const answer = document.getElementById("answer");
-    answer.innerText = `Wynik to: ${cookie}`;
-    firstNumber.value = cookie;
-}
-const secondNumber = document.querySelector("input[name='secondNumber']");
-const operator = document.querySelector("select[name='operator']");
-const submit = document.querySelector("button[name='submit']");
-
-function validate(){
-    if(secondNumber.value == 0 && operator.value == "/") {
-        answer.innerText = "Błędna wartość";
-        submit.enable = false;
+    function isEmpty(str) {
+        return (str || 0 !== str.length);
     }
-    else answer.innerText = "";
-}
-secondNumber.onkeyup = validate;
-operator.onchange = validate;*/
+
+    function checkValues() {
+       if(isEmpty(secondNumber.val())){
+            if(secondNumber.val() == 0 && operator.val() == "/") {
+                $("#result").text("Niedozwolone");
+                $("#calculate").prop("disabled", true);
+            }
+            else {
+                $("#result").text("");
+                $("#calculate").prop("disabled", false);
+            }
+        }
+    }
+
+    function ifInputsEmpty() {
+        if (isEmpty($("input[name='firstNumber']").val()) || isEmpty(secondNumber.val()))
+            $("#calculate").prop("disabled", true);
+        else $("#calculate").prop("disabled", false);
+    }
+
+    operator.add(secondNumber).on("keyup change", checkValues);
+});

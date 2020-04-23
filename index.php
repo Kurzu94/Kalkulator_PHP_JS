@@ -1,3 +1,6 @@
+<?php
+
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -12,7 +15,8 @@
         <div class="container">
             <div class="col-md-8 col-sm-12" id="calculator-body">
                 <p>CS Calculator</p>
-                <input type="text" />
+                <form method="POST">
+                <input type="text" name="calc" />
                 <div id="clear-all" class="col-6 calc-button func-button">CE</div>
                 <div id="backspace" class="col-6 calc-button func-button">&#9003;</div>
                 <div id="percentage" class="calc-button col-3 func-button">%</div>
@@ -33,7 +37,9 @@
                 <div id="plus" class="calc-button col-3 func-button">+</div>
                 <div id="digit-0" class="calc-button col-3">0</div>
                 <div id="comma" class="calc-button col-3 func-button">,</div>
-                <div id="equals" class="calc-button col-6 equals-button">=</div>
+                <div id="equals" class="calc-button col-6 equals-button" onclick="calculate()">=</div>
+                <button type="submit">=</button>
+                </form>
             </div>
             <div class="col-md-4 col-sm-12" id="history-box">
                 History
