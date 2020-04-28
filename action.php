@@ -9,7 +9,7 @@
 
     $answer = new Calculator($firstNumber, $secondNumber, $operator);
     try {
-        $answerPush = $answer->calculate();
+        $answerPush = floatval($answer->calculate());
         echo json_encode($answerPush);
     }
     catch (Error $e) {
