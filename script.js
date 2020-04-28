@@ -1,17 +1,50 @@
+const text = document.querySelector('input[name="calc"]');
+
+$(document).ready(function() {
+    text.value = 0;
+
+    $("#equals").click(() => {
+        $.ajax({
+            type: "post",
+            url: "action.php",
+            data: $("form").serialize(),
+            success: function(result) {
+                $("#history-box").html(result);
+            }
+        });
+    });
+
+
+    const buttonTable = [];
+    for(let i = 0; i < 10; i++){
+        let varName = `button~${i}`;
+        buttonTable.push(new DigitButton(i));
+    }
+    const plusButton = new OperatorButton("+");
+    const minusButton = new OperatorButton("-");
+    const multiplyButton = new OperatorButton("*");
+    const divideButton = new OperatorButton("/");
+    const clearButton = new ClearButton();
+    const commaButton = new CommaButton();
+});
+
 class DigitButton {
     constructor(digit){
         this.digit = digit;
 
-        const text = document.querySelector('input[name="calc"]');
         const buttonID = `digit-${this.digit}`;
         const button = document.getElementById(buttonID);
         button.onclick = () => {
-            text.value += this.digit;
+            if (text.value == 0){
+                text.value = this.digit;
+            }
+            else text.value += this.digit;
+
         }
     }
 }
 
-class FunctionButton {
+class OperatorButton {
     constructor(operator) {
         this.operator = operator;
 
@@ -32,38 +65,29 @@ class FunctionButton {
                 break;
         }
 
-        const text = document.querySelector('input[name="calc"]');
         const button = document.getElementById(this.buttonID);
         button.onclick = () => {
                 text.value += ` ${this.operator} `;
         }
     }
 }
-$(document).ready(function() {
 
-    const secondNumber = $("input[name='secondNumber']");
-    //const operator = $("select");
-
-    $("#equals").click(() => {
-        $.ajax({
-            type: "post",
-            url: "action.php",
-            data: $("form").serialize(),
-            success: function(result) {
-                $("#history-box").html(result);
-                secondNumber.val("");
-            }
-        });
-    });
-
-    const buttonTable = [];
-    for(let i = 0; i < 10; i++){
-        let varName = `button~${i}`;
-        buttonTable.push(new DigitButton(i));
+class ClearButton {
+    constructor() {
+        const button = document.getElementById("clear-all");
+        button.onclick = () => {
+            text.value = 0;
+        }
     }
 
-    const plusButton = new FunctionButton("+");
-    const minusButton = new FunctionButton("-");
-    const multiplyButton = new FunctionButton("*");
-    const divideButton = new FunctionButton("/");
-});
+}
+
+class CommaButton {
+    constructor() {
+        const button = document.getElementById("comma");
+        button.onclick = () => {
+            text.value += ".";
+        }
+    }
+}
+
