@@ -1,42 +1,69 @@
-$(document).ready(function() {
-    const secondNumber = $("input[name='secondNumber']");
-    const operator = $("select");
+class DigitButton {
+    constructor(digit){
+        this.digit = digit;
 
-    $("#calculate").click(() => {
+        const text = document.querySelector('input[name="calc"]');
+        const buttonID = `digit-${this.digit}`;
+        const button = document.getElementById(buttonID);
+        button.onclick = () => {
+            text.value += this.digit;
+        }
+    }
+}
+
+class FunctionButton {
+    constructor(operator) {
+        this.operator = operator;
+
+        switch(this.operator) {
+            case "+":
+                this.buttonID = "plus";
+                break;
+            case "-":
+                this.buttonID = "minus";
+                break;
+            case "*":
+                this.buttonID = "multiply";
+                break;
+            case "/":
+                this.buttonID = "divide";
+                break;
+            default:
+                break;
+        }
+
+        const text = document.querySelector('input[name="calc"]');
+        const button = document.getElementById(this.buttonID);
+        button.onclick = () => {
+                text.value += ` ${this.operator} `;
+        }
+    }
+}
+$(document).ready(function() {
+
+    const secondNumber = $("input[name='secondNumber']");
+    //const operator = $("select");
+
+    $("#equals").click(() => {
         $.ajax({
             type: "post",
             url: "action.php",
             data: $("form").serialize(),
             success: function(result) {
-                $("#result").html(result);
-                $("input[name='firstNumber']").val(result);
+                $("#history-box").html(result);
                 secondNumber.val("");
             }
         });
     });
 
-    function isEmpty(str) {
-        return (str || 0 !== str.length);
+    const buttonTable = [];
+    for(let i = 0; i < 10; i++){
+        let varName = `button~${i}`;
+        buttonTable.push(new DigitButton(i));
     }
 
-    function checkValues() {
-       if(isEmpty(secondNumber.val())){
-            if(secondNumber.val() == 0 && operator.val() == "/") {
-                $("#result").text("Niedozwolone");
-                $("#calculate").prop("disabled", true);
-            }
-            else {
-                $("#result").text("");
-                $("#calculate").prop("disabled", false);
-            }
-        }
-    }
-
-    function ifInputsEmpty() {
-        if (isEmpty($("input[name='firstNumber']").val()) || isEmpty(secondNumber.val()))
-            $("#calculate").prop("disabled", true);
-        else $("#calculate").prop("disabled", false);
-    }
-
-    operator.add(secondNumber).on("keyup change", checkValues);
+    const plusButton = new FunctionButton("+");
+    const minusButton = new FunctionButton("-");
+    const multiplyButton = new FunctionButton("*");
+    const divideButton = new FunctionButton("/");
 });

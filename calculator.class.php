@@ -12,7 +12,7 @@ class Calculator {
      * @param int $secondNumber
      * @param string $operator
      */
-    public function __construct(int $firstNumber, int $secondNumber, string $operator)
+    public function __construct(float $firstNumber, float $secondNumber, string $operator)
     {
         $this->firstNumber = $firstNumber;
         $this->secondNumber = $secondNumber;
@@ -20,13 +20,8 @@ class Calculator {
     }
 
     /**
-     * @param string $message
      * @return float
      */
-    public function setErrorMessage(string $message){
-        $this->message = $message;
-        return $this->message;
-    }
 
     public function calculate(): float
     {

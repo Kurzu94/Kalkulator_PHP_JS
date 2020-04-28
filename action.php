@@ -1,13 +1,13 @@
 <?php
     include 'calculator.class.php';
 
-    $firstNumber = $_POST['firstNumber'];
-    $secondNumber = $_POST['secondNumber'];
-    $operator = $_POST['operator'];
-
+    $calcOutput = $_POST['calc'];
+    $args = explode(" ", $calcOutput);
+    $firstNumber = floatval($args[0]);
+    $secondNumber = floatval($args[2]);
+    $operator = $args[1];
 
     $answer = new Calculator($firstNumber, $secondNumber, $operator);
-    $answer->setErrorMessage("Niemożliwe");
     try {
         $answerPush = $answer->calculate();
         echo json_encode($answerPush);
