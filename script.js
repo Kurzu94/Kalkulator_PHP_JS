@@ -1,4 +1,5 @@
 const text = document.querySelector('input[name="calc"]');
+let operatorUsed = false;
 
 $(document).ready(function() {
     text.value = 0;
@@ -9,11 +10,22 @@ $(document).ready(function() {
             url: "action.php",
             data: $("form").serialize(),
             success: function(result) {
-                $("#history-box").html(result);
+                try{
+                    const answer = JSON.parse(result);
+                    $("input[name='calc']").val(answer[0]);
+                    $("#history-box").append(`<br /> ${answer[1]} = ${answer[0]}`);
+                }
+                catch(e){
+                    text.style.border = "3px solid red";
+                    setTimeout(() => {
+                        text.style.border = "3px solid white";
+                        text.value = 0;
+                    }, 3000);
+                }
             }
         });
+        operatorUsed = false;
     });
-
 
     const buttonTable = [];
     for(let i = 0; i < 10; i++){
@@ -26,7 +38,9 @@ $(document).ready(function() {
     const divideButton = new OperatorButton("/");
     const clearButton = new ClearButton();
     const commaButton = new CommaButton();
+    const backspaceButton = new BackspaceButton();
 });
+
 
 class DigitButton {
     constructor(digit){
@@ -44,7 +58,7 @@ class DigitButton {
     }
 }
 
-class OperatorButton {
+class OperatorButton{
     constructor(operator) {
         this.operator = operator;
 
@@ -62,21 +76,26 @@ class OperatorButton {
                 this.buttonID = "divide";
                 break;
             default:
+                this.buttonID = "plus";
                 break;
         }
 
         const button = document.getElementById(this.buttonID);
         button.onclick = () => {
+            if(operatorUsed === false) {
                 text.value += ` ${this.operator} `;
+                operatorUsed = true;
+            }
         }
     }
 }
 
-class ClearButton {
+class ClearButton{
     constructor() {
         const button = document.getElementById("clear-all");
         button.onclick = () => {
             text.value = 0;
+            operatorUsed = false;
         }
     }
 
@@ -90,4 +109,21 @@ class CommaButton {
         }
     }
 }
+
+class BackspaceButton{
+    constructor() {
+        const button = document.getElementById("backspace");
+        button.onclick = () => {
+            if(text.value.charAt(text.value.length - 1) == " ") {
+                text.value = text.value.slice(0, -2);
+                operatorUsed = false;
+            }
+            if(text.value.length != 1)
+                text.value = text.value.slice(0, -1);
+            else
+                text.value = 0;
+        }
+    }
+}
+
 

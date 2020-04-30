@@ -8,8 +8,8 @@ class Calculator {
 
     /**
      * Calculator constructor.
-     * @param int $firstNumber
-     * @param int $secondNumber
+     * @param float $firstNumber
+     * @param float $secondNumber
      * @param string $operator
      */
     public function __construct(float $firstNumber, float $secondNumber, string $operator)

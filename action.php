@@ -3,13 +3,16 @@
 
     $calcOutput = $_POST['calc'];
     $args = explode(" ", $calcOutput);
+
     $firstNumber = floatval($args[0]);
-    $secondNumber = floatval($args[2]);
-    $operator = $args[1];
+    if(isset($args[2])) $secondNumber = floatval($args[2]);
+    else $secondNumber = 0;
+    if(isset($args[1])) $operator = $args[1];
+    else $operator = "+";
 
     $answer = new Calculator($firstNumber, $secondNumber, $operator);
     try {
-        $answerPush = floatval($answer->calculate());
+        $answerPush = [floatval($answer->calculate()), $calcOutput];
         echo json_encode($answerPush);
     }
     catch (Error $e) {
